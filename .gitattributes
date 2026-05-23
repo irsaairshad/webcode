@@ -1,0 +1,10 @@
+# Normalize line endings for text files
+* text=auto
+
+# Keep binary files unchanged
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.ico binary

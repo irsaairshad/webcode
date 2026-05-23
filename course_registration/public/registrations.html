@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Registrations — SCRS</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #333; }
+ header { background: linear-gradient(135deg, #1a3c5e, #2e7bcf); color: white; padding: 20px 40px; }
+ header h1 { font-size: 1.6rem; }
+ nav { background: #14304f; display: flex; gap: 4px; padding: 0 30px; }
+ nav a { color: #a9c7e8; text-decoration: none; padding: 12px 18px; font-size: 0.9rem; transition: all 0.2s; }
+ nav a:hover, nav a.active { color: white; background: #2e7bcf; }
+ .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+ .top { display: grid; grid-template-columns: 350px 1fr; gap: 24px; margin-bottom: 24px; }
+ .section { background: white; border-radius: 10px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+ .section h2 { font-size: 1.1rem; color: #1a3c5e; margin-bottom: 18px; border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; }
+ .form-group { margin-bottom: 14px; }
+ label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 5px; }
+ select { width: 100%; padding: 9px 12px; border: 1.5px solid #d0dff0; border-radius: 6px; font-size: 0.9rem; }
+ select:focus { outline: none; border-color: #2e7bcf; }
+ .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+ .btn-primary { background: #2e7bcf; color: white; width: 100%; }
+ .btn-danger { background: #dc3545; color: white; padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; }
+ .btn-success { background: #198754; color: white; padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; }
+ table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+ th { background: #f0f4f8; padding: 10px 12px; text-align: left; color: #555; font-weight: 600; }
+ td { padding: 10px 12px; border-bottom: 1px solid #f0f4f8; vertical-align: middle; }
+ tr:hover td { background: #f9fbff; }
+ .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+ .badge-pending { background: #fff3cd; color: #856404; }
+ .badge-approved { background: #d1e7dd; color: #0a5c36; }
+ .badge-dropped { background: #f8d7da; color: #842029; }
+ .alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 0.88rem; display: none; }
+ .alert-success { background: #d1e7dd; color: #0a5c36; }
+ .alert-error { background: #f8d7da; color: #842029; }
+ </style>
+</head>
+<body>
+ <header><h1>Student Course Registration System</h1></header>
+ <nav>
+ <a href="index.html">Dashboard</a>
+ <a href="students.html">Students</a>
+ <a href="courses.html">Courses</a>
+ <a href="registrations.html" class="active">Registrations</a>
+ </nav>
+
+ <div class="container">
+ <div class="top">
+ <div class="section">
+ <h2>Register Student</h2>
+ <div class="alert alert-success" id="successMsg"></div>
+ <div class="alert alert-error" id="errorMsg"></div>
+ <div class="form-group">
+ <label>Select Student *</label>
+ <select id="student"><option value="">-- Select Student --</option></select>
+ </div>
+ <div class="form-group">
+ <label>Select Course *</label>
+ <select id="course"><option value="">-- Select Course --</option></select>
+ </div>
+ <button class="btn btn-primary" onclick="register()">Register</button>
+ </div>
+
+ <div class="section">
+ <h2>API Endpoints Reference</h2>
+ <table>
+ <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+ <tbody>
+ <tr><td><span style="color:green;font-weight:700">GET</span></td><td>/api/students</td><td>Get all students</td></tr>
+ <tr><td><span style="color:green;font-weight:700">POST</span></td><td>/api/students</td><td>Create student</td></tr>
+ <tr><td><span style="color:orange;font-weight:700">PUT</span></td><td>/api/students/:id</td><td>Update student</td></tr>
+ <tr><td><span style="color:red;font-weight:700">DELETE</span></td><td>/api/students/:id</td><td>Delete student</td></tr>
+ <tr><td><span style="color:green;font-weight:700">GET</span></td><td>/api/courses</td><td>Get all courses</td></tr>
+ <tr><td><span style="color:green;font-weight:700">POST</span></td><td>/api/courses</td><td>Create course</td></tr>
+ <tr><td><span style="color:orange;font-weight:700">PUT</span></td><td>/api/courses/:id</td><td>Update course</td></tr>
+ <tr><td><span style="color:red;font-weight:700">DELETE</span></td><td>/api/courses/:id</td><td>Delete course</td></tr>
+ <tr><td><span style="color:green;font-weight:700">GET</span></td><td>/api/registrations</td><td>Get all registrations</td></tr>
+ <tr><td><span style="color:green;font-weight:700">POST</span></td><td>/api/registrations</td><td>Register student</td></tr>
+ <tr><td><span style="color:orange;font-weight:700">PUT</span></td><td>/api/registrations/:id</td><td>Update status/grade</td></tr>
+ <tr><td><span style="color:red;font-weight:700">DELETE</span></td><td>/api/registrations/:id</td><td>Delete registration</td></tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
+
+ <div class="section">
+ <h2>All Registrations</h2>
+ <table>
+ <thead><tr><th>Student</th><th>Roll No</th><th>Course</th><th>Status</th><th>Grade</th><th>Actions</th></tr></thead>
+ <tbody id="regTable"><tr><td colspan="6" style="text-align:center;color:#999;">Loading...</td></tr></tbody>
+ </table>
+ </div>
+ </div>
+
+ <script>
+ const BASE = 'http://localhost:3000/api';
+
+ async function loadDropdowns() {
+ const [sRes, cRes] = await Promise.all([fetch(`${BASE}/students`), fetch(`${BASE}/courses`)]);
+ const sData = await sRes.json();
+ const cData = await cRes.json();
+ const sSel = document.getElementById('student');
+ const cSel = document.getElementById('course');
+ (sData.data || []).forEach(s => {
+ sSel.innerHTML += `<option value="${s._id}">${s.name} (${s.rollNumber})</option>`;
+ });
+ (cData.data || []).forEach(c => {
+ cSel.innerHTML += `<option value="${c._id}">${c.courseCode} - ${c.title}</option>`;
+ });
+ }
+
+ async function loadRegistrations() {
+ const res = await fetch(`${BASE}/registrations`);
+ const data = await res.json();
+ const tbody = document.getElementById('regTable');
+ if (!data.data || data.data.length === 0) {
+ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;">No registrations found</td></tr>';
+ return;
+ }
+ tbody.innerHTML = data.data.map(r => `
+ <tr>
+ <td><strong>${r.student?.name || '—'}</strong></td>
+ <td>${r.student?.rollNumber || '—'}</td>
+ <td>${r.course?.courseCode || '—'}: ${r.course?.title || '—'}</td>
+ <td><span class="badge badge-${r.status}">${r.status}</span></td>
+ <td>${r.grade}</td>
+ <td>
+ ${r.status === 'pending' ? `<button class="btn btn-success" onclick="updateStatus('${r._id}','approved')">Approve</button> ` : ''}
+ ${r.status !== 'dropped' ? `<button class="btn" style="background:#ffc107;color:#333;padding:5px 10px;font-size:0.8rem;border-radius:4px;" onclick="updateStatus('${r._id}','dropped')">Drop</button> ` : ''}
+ <button class="btn btn-danger" onclick="deleteReg('${r._id}')">Delete</button>
+ </td>
+ </tr>
+ `).join('');
+ }
+
+ async function register() {
+ const student = document.getElementById('student').value;
+ const course = document.getElementById('course').value;
+ if (!student || !course) { showAlert('errorMsg', 'Please select both student and course'); return; }
+ try {
+ const res = await fetch(`${BASE}/registrations`, {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ student, course })
+ });
+ const data = await res.json();
+ if (data.success) { showAlert('successMsg', data.message); loadRegistrations(); }
+ else showAlert('errorMsg', data.message);
+ } catch (e) { showAlert('errorMsg', 'Server error. Is the server running?'); }
+ }
+
+ async function updateStatus(id, status) {
+ const res = await fetch(`${BASE}/registrations/${id}`, {
+ method: 'PUT',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ status })
+ });
+ const data = await res.json();
+ if (data.success) { showAlert('successMsg', `Status updated to ${status}`); loadRegistrations(); }
+ else showAlert('errorMsg', data.message);
+ }
+
+ async function deleteReg(id) {
+ if (!confirm('Delete this registration?')) return;
+ const res = await fetch(`${BASE}/registrations/${id}`, { method: 'DELETE' });
+ const data = await res.json();
+ if (data.success) { showAlert('successMsg', data.message); loadRegistrations(); }
+ }
+
+ function showAlert(id, msg) {
+ const el = document.getElementById(id);
+ el.textContent = msg; el.style.display = 'block';
+ setTimeout(() => el.style.display = 'none', 3000);
+ }
+
+ loadDropdowns();
+ loadRegistrations();
+ </script>
+</body>
+</html>
