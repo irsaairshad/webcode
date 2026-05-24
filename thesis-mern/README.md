@@ -1,5 +1,36 @@
 # Thesis Submission System — MERN Stack
 
+A full-stack web application for managing the academic thesis/paper submission and review process. Built with the MERN stack (MongoDB, Express.js, React.js, Node.js), this system supports three user roles: Author, Reviewer, and Admin, each with a dedicated panel and set of permissions.
+
+✨ Features
+👤 Author
+
+Register with academic profile (university, address, blood group)
+Submit thesis papers (PDF or DOCX, up to 16MB)
+Track submission status in real time (Submitted > Under Review > Accepted / Rejected)
+View full paper details
+
+🔍 Reviewer
+
+Register with professional profile (qualification, specialization)
+View assigned papers from the Admin
+Submit detailed review reports with a decision (Accept / Reject / Accept with Revision)
+Automatic workload cap (max 5 active assignments by default)
+
+🛠️ Admin
+
+View and manage all submitted papers
+Assign reviewers to papers (with duplicate and workload checks)
+Search and browse all registered users
+Create the first admin account via a setup script
+
+🔐 Authentication and Security
+
+JWT-based authentication with 7-day token expiry
+Passwords hashed using bcryptjs
+Role-based route protection on both frontend and backend
+Protected API endpoints using custom Express middleware
+
 ## Tech Stack
 - **M** — MongoDB (database)
 - **E** — Express.js (backend framework)
